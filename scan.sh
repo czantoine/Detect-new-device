@@ -30,14 +30,15 @@ echo "$copy1" > new_scan.txt
 copy2=$(sed '/seconds$/d' new_scan.txt)
 echo "$copy2" > new_scan.txt
 
-cat new_scan.txt
+check0=$(diff -a --suppress-common-lines -y new_scan.txt scan.txt)
+echo "$check0"
 
 diff --brief <(sort new_scan.txt) <(sort scan.txt) > /dev/null
 comp_value=$?
 if [ $comp_value -eq 1 ]
 	then
 		cp new_scan.txt scan.txt
-		echo "New device conect on your network detected !"
+		echo -e "\nNew device connect on your network detected !"
 	else
   		echo "Nothing"
 fi
